@@ -34,7 +34,7 @@ Open your terminal in VS Code (`Ctrl + \``) and run:
     ```bash
     npm run dev
     ```
-    *This starts the Vite development server usually at `http://localhost:5173`.*
+    *This starts the Vite development server usually at `http://localhost:`.*
 
 3.  **Open in Browser**
     Ctrl+Click the link shown in the terminal to open the app.

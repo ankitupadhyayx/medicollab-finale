@@ -254,7 +254,7 @@ export const Landing: React.FC = () => {
                <div>
                  <div className="flex items-center space-x-2 mb-4">
                     <Brain className="text-ai-400 animate-pulse" />
-                    <span className="text-ai-400 font-bold tracking-wider text-sm uppercase">Powered by Gemini</span>
+                    <span className="text-ai-400 font-bold tracking-wider text-sm uppercase">Powered</span>
                  </div>
                  <h2 className="text-4xl font-bold">Intelligent Health Insights</h2>
                  <p className="text-gray-400 mt-4 max-w-xl">We don't just store data. We help you understand it using advanced Generative AI.</p>

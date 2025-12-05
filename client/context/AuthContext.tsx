@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { User, UserRole } from '../types';
-import { DEFAULT_USER } from '../constants';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { User, UserRole } from "../types";
+import { DEFAULT_USER } from "../constants";
 
 interface AuthContextType {
   user: User | null;
@@ -17,34 +17,51 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const getNameByRole = (role: UserRole) => {
+    switch (role) {
+      case UserRole.HOSPITAL:
+        return "City General Hospital";
+      case UserRole.ADMIN:
+        return "System Admin";
+      default:
+        return "Alex Doe";
+    }
+  };
+
   useEffect(() => {
-    // Simulate checking local storage
-    const storedUser = localStorage.getItem('medicollab_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsAuthenticated(true);
+    try {
+      const storedUser = localStorage.getItem("medicollab_user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.error("Invalid user data in localStorage");
+      localStorage.removeItem("medicollab_user");
     }
     setIsLoading(false);
   }, []);
 
   const login = (role: UserRole) => {
-    // In a real app, this would accept credentials and validate with API
     const newUser: User = {
       ...DEFAULT_USER,
-      role: role,
-      name: role === UserRole.HOSPITAL ? 'City General Hospital' : role === UserRole.ADMIN ? 'System Admin' : 'Alex Doe',
-      avatar: role === UserRole.HOSPITAL ? 'https://picsum.photos/100/100?random=60' : DEFAULT_USER.avatar
+      role,
+      name: getNameByRole(role),
+      avatar:
+        role === UserRole.HOSPITAL
+          ? "https://picsum.photos/100/100?random=60"
+          : DEFAULT_USER.avatar
     };
-    
+
     setUser(newUser);
     setIsAuthenticated(true);
-    localStorage.setItem('medicollab_user', JSON.stringify(newUser));
+    localStorage.setItem("medicollab_user", JSON.stringify(newUser));
   };
 
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('medicollab_user');
+    localStorage.removeItem("medicollab_user");
   };
 
   return (
@@ -57,7 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
